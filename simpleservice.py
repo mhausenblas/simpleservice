@@ -18,7 +18,7 @@ from tornado.escape import json_encode
 
 DEBUG = True
 VERSION = os.getenv('SIMPLE_SERVICE_VERSION', "0.2.0")
-PORT = os.getenv('SIMPLE_SERVICE_PORT', "9876")
+PORT = os.getenv('SIMPLE_SERVICE_PORT', 9876)
 
 if DEBUG:
   FORMAT = "%(asctime)-0s %(levelname)s %(message)s [at line %(lineno)d]"
