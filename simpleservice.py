@@ -9,7 +9,6 @@ A simple service
 
 import logging
 import os
-import argparse
 import json
 import tornado.ioloop
 import tornado.web
@@ -17,8 +16,8 @@ import tornado.web
 from tornado.escape import json_encode
 
 DEBUG = True
-VERSION = os.getenv('SIMPLE_SERVICE_VERSION', "0.2.0")
-PORT = os.getenv('SIMPLE_SERVICE_PORT', 9876)
+VERSION = os.getenv('SIMPLE_SERVICE_VERSION', "0.3.0")
+PORT = os.getenv('PORT0', 9876)
 
 if DEBUG:
   FORMAT = "%(asctime)-0s %(levelname)s %(message)s [at line %(lineno)d]"
