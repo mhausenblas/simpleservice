@@ -17,7 +17,7 @@ import tornado.web
 from tornado.escape import json_encode
 
 DEBUG = True
-VERSION = os.getenv('SIMPLE_SERVICE_VERSION', "0.0.0")
+VERSION = os.getenv('SIMPLE_SERVICE_VERSION', "0.1.0")
 PORT = 9876
 
 if DEBUG:
@@ -51,6 +51,6 @@ if __name__ == "__main__":
   app = tornado.web.Application([
       (r"/endpoint0", Endpoint0)
   ])
-  app.listen(PORT)
+  app.listen(PORT, address='0.0.0.0')
   print("This is a simple service in version v%s listening on port %s" %(VERSION, PORT))
   tornado.ioloop.IOLoop.current().start()
