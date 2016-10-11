@@ -4,6 +4,12 @@ A simple and configurable service that can, for example, be used for testing con
 
 Note that the versions of `simpleservice`, such as `0.4.0`, used in the following refer to the tags used in the respective [Docker images](https://hub.docker.com/r/mhausenblas/simpleservice/tags/) created. There are no tags or releases as such in this GitHub repo. 
 
+Contents:
+
+- [The HTTP API](the-http-api)
+- [Running it](running-it)
+- [Invoking it](invoking-it)
+
 ## The HTTP API
 
 See also the below section [changing runtime behaviour](#changing-runtime-behaviour) on how you can influence the response of `simpleservice`.
@@ -94,7 +100,6 @@ To launch `simpleservice` as a DC/OS service use, for example following app spec
     }
 
 In above configuration, DC/OS will assign a random `PORT0`, say, `15158` and launch it on one of the available agents, say, `10.0.3.192` and hence `simpleservice` might be available at `http://10.0.3.192:15158`.
-
 
 ## Changing runtime behaviour
 
