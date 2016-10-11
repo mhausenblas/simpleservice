@@ -8,11 +8,12 @@ Contents:
 
 - [The HTTP API](#the-http-api)
 - [Running it](#running-it)
+- [Changing runtime behaviour](#changing-runtime-behaviour)
 - [Invoking it](#invoking-it)
 
 ## The HTTP API
 
-See also the below section [changing runtime behaviour](#changing-runtime-behaviour) on how you can influence the response of `simpleservice`.
+See also the below section on [changing runtime behaviour](#changing-runtime-behaviour) on how you can influence the response of `simpleservice`.
 
 ### `/endpoint0` [0.3.0+]
 
