@@ -1,25 +1,128 @@
 # A Simple Service
 
-For a direct execution, Python `2.7.9` is expected. You can run the `simpleservice` like so:
+A simple and configurable service that can, for example, be used for testing container orchestration setups (incl. health check endpoint).
 
-    $ python simpleservice.py
+## The HTTP API
 
-Or the containerized version:
+### `/endpoint0` [0.3.0+]
 
-    $ docker run -P mhausenblas/simpleservice
+Principled response:
 
-Once started you can invoke it like so:
+    HTTP/1.1 200 OK
+    $HEADER_FIELDS
+    {
+        "host": "$HOST:$PORT",
+        "result": "all is well",
+        "version": "$VERSION"
+    }
 
-    $ http localhost:9876/endpoint0
+Example response:
+
     HTTP/1.1 200 OK
     Content-Length: 71
     Content-Type: application/json
-    Date: Fri, 23 Sep 2016 12:41:49 GMT
-    Etag: "11374af167832fe8646cc1f044b2d0cc2b6f411b"
+    Date: Tue, 11 Oct 2016 16:57:33 GMT
+    Etag: "ce18606c019e1d8c584b796d1fe7402d9767b9b6"
     Server: TornadoServer/4.3
 
     {
         "host": "localhost:9876",
         "result": "all is well",
-        "version": "0.0.0"
+        "version": "0.4.0"
     }
+
+### `/health` [0.4.0+]
+
+Principled response:
+
+    HTTP/1.1 200 OK
+    $HEADER_FIELDS
+     {
+         "healthy": true
+     }
+
+Example response:
+
+    HTTP/1.1 200 OK
+    Content-Length: 17
+    Content-Type: application/json
+    Date: Tue, 11 Oct 2016 17:17:21 GMT
+    Etag: "b40026a9bea9f5096f4ef55d3d23d6730139ff5e"
+    Server: TornadoServer/4.3
+    
+    {
+        "healthy": true
+    }
+
+## Running it
+
+### Locally
+
+For a local execution, Python `2.7.9` is required. You can then run `simpleservice` like so:
+
+    # with defaults:
+    $ python simpleservice.py
+    
+    # overwriting certain runtime settings:
+    $ HEALTH_MAX=200 VERSION=1.0 python simpleservice.py
+    
+If you fancy it you can run the containerized version of `simpleservice` on your local machine (requires Docker installed):
+
+    $ docker run -P mhausenblas/simpleservice:0.4.0
+
+### In a DC/OS cluster
+
+To launch `simpleservice` as a DC/OS service use, for example following app spec:
+
+    {
+      "id": "/sise",
+      "instances": 1,
+      "cpus": 0.1,
+      "mem": 32,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "image": "mhausenblas/simpleservice:0.4.0",
+          "network": "HOST",
+          "forcePullImage": true
+        }
+      }
+    }
+
+In above configuration, DC/OS will assign a random `PORT0`, say, `15158` and launch it on one of the available agents, say, `10.0.3.192` and hence `simpleservice` might be available at `http://10.0.3.192:15158`.
+
+
+## Changing runtime behaviour
+
+Through setting the following environment variables, you can change the runtime behaviour of `simpleservice`:
+
+- `PORT0` ... the port `simpleservice` is serving on (note: on DC/OS this is a well-known and pre-defined env variable)
+- `VERSION` ... the value of `version` returned in the JSON response of the `/endpoint0` endpoint
+- `HEALTH_MIN` and `HEALTH_MAX` ... the min. and max. delay in milliseconds that the `/health` endpoint responds
+
+## Invoking it
+
+Once `simpleservice` is started you can invoke it like so (here is a local service execution shown):
+
+    $ http localhost:9876/endpoint0
+    HTTP/1.1 200 OK
+    Content-Length: 71
+    Content-Type: application/json
+    Date: Tue, 11 Oct 2016 16:57:33 GMT
+    Etag: "ce18606c019e1d8c584b796d1fe7402d9767b9b6"
+    Server: TornadoServer/4.3
+
+    {
+        "host": "localhost:9876",
+        "result": "all is well",
+        "version": "0.4.0"
+    }
+
+And the service logs would show something like:
+
+    ~$ python simpleservice.py
+    This is a simple service in version v0.4.0 listening on port 9876
+    2016-10-11T05:57:33 INFO /endpoint0 serving from localhost:9876 has been invoked from 127.0.0.1 [at line 58]
+    2016-10-11T05:57:33 INFO 200 GET /endpoint0 (127.0.0.1) 1.10ms [at line 1946]
+
+Note that the available endpoints depend on the version of `simpleservice` as defined in the first section of this docs (aka API).
