@@ -2,7 +2,11 @@
 
 A simple and configurable service that can, for example, be used for testing container orchestration setups (incl. health check endpoint).
 
+Note that the versions of `simpleservice`, such as `0.4.0`, used in the following refer to the tags used in the respective [Docker images](https://hub.docker.com/r/mhausenblas/simpleservice/tags/) created. There are no tags or releases as such in this GitHub repo. 
+
 ## The HTTP API
+
+See also the below section [changing runtime behaviour](#changing-runtime-behaviour) on how you can influence the response of `simpleservice`.
 
 ### `/endpoint0` [0.3.0+]
 
