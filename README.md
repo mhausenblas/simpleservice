@@ -6,9 +6,9 @@ Note that the versions of `simpleservice`, such as `0.4.0`, used in the followin
 
 Contents:
 
-- [The HTTP API](the-http-api)
-- [Running it](running-it)
-- [Invoking it](invoking-it)
+- [The HTTP API](#the-http-api)
+- [Running it](#running-it)
+- [Invoking it](#invoking-it)
 
 ## The HTTP API
 
