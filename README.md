@@ -67,9 +67,7 @@ Example response:
 
 ## Running it
 
-### Locally
-
-For a local execution, Python `2.7.9` is required. You can then run `simpleservice` like so:
+For local execution, Python `2.7.9` is required. You can then run `simpleservice` like so:
 
     # with defaults:
     $ python simpleservice.py
@@ -81,32 +79,11 @@ If you fancy it you can run the containerized version of `simpleservice` on your
 
     $ docker run -P mhausenblas/simpleservice:0.4.0
 
-### In a DC/OS cluster
-
-To launch `simpleservice` as a DC/OS service use, for example following app spec:
-
-    {
-      "id": "/sise",
-      "instances": 1,
-      "cpus": 0.1,
-      "mem": 32,
-      "container": {
-        "type": "DOCKER",
-        "docker": {
-          "image": "mhausenblas/simpleservice:0.4.0",
-          "network": "HOST",
-          "forcePullImage": true
-        }
-      }
-    }
-
-In above configuration, DC/OS will assign a random `PORT0`, say, `15158` and launch it on one of the available agents, say, `10.0.3.192` and hence `simpleservice` might be available at `http://10.0.3.192:15158`.
-
 ## Changing runtime behaviour
 
 Through setting the following environment variables, you can change the runtime behaviour of `simpleservice`:
 
-- `PORT0` ... the port `simpleservice` is serving on (note: on DC/OS this is a well-known and pre-defined env variable)
+- `PORT0` ... the port `simpleservice` is serving on
 - `VERSION` ... the value of `version` returned in the JSON response of the `/endpoint0` endpoint
 - `HEALTH_MIN` and `HEALTH_MAX` ... the min. and max. delay in milliseconds that the `/health` endpoint responds
 
