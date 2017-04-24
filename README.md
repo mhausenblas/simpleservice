@@ -2,7 +2,7 @@
 
 A simple and configurable service that can, for example, be used for testing container orchestration setups (incl. health check endpoint).
 
-Note that the versions of `simpleservice`, such as `0.4.0`, used in the following refer to the tags used in the respective [Docker images](https://hub.docker.com/r/mhausenblas/simpleservice/tags/) created. There are no tags or releases as such in this GitHub repo. 
+Note that the versions of `simpleservice`, such as `0.4.0`, used in the following refer to the tags used in the respective [Docker images](https://hub.docker.com/r/mhausenblas/simpleservice/tags/) created. There are no tags or releases as such in this GitHub repo.
 
 Contents:
 
@@ -13,7 +13,83 @@ Contents:
 
 ## The HTTP API
 
-See also the below section on [changing runtime behaviour](#changing-runtime-behaviour) on how you can influence the response of `simpleservice`.
+In addition to the endpoints listed here, see also the [change the runtime behaviour](#changing-runtime-behaviour) section below. 
+
+### `/env` [0.5.0+]
+
+Principled response:
+
+    HTTP/1.1 200 OK
+    $HEADER_FIELDS
+     {
+         "env": "$DUMP_OF_ENVIRONMENT_VARS",
+         "version": "$VERSION"
+     }
+
+Example response:
+
+    HTTP/1.1 200 OK                                                                                                                                                             [5/99]
+    Content-Length: 2471
+    Content-Type: application/json
+    Date: Mon, 24 Apr 2017 12:38:47 GMT
+    Etag: "5ccb76cf1545f01fd1e0df4257ff6f8da19678e9"
+    Server: TornadoServer/4.3
+
+    {
+        "env": "{'USER': 'mhausenblas', ...}"
+        "version": "0.5.0"
+    }    
+
+### `/info` [0.5.0+]
+
+Principled response:
+
+    HTTP/1.1 200 OK
+    $HEADER_FIELDS
+     {
+         "from": "$REMOTE_IP",
+         "host": ""$HOST:$PORT"",
+         "version": "$VERSION"
+     }
+
+Example response:
+
+    HTTP/1.1 200 OK
+    Content-Length: 67
+    Content-Type: application/json
+    Date: Mon, 24 Apr 2017 12:36:37 GMT
+    Etag: "9d09b0a126f68a0fddfec0f494e56fcab29eac15"
+    Server: TornadoServer/4.3
+
+    {
+        "from": "127.0.0.1",
+        "host": "localhost:9876",
+        "version": "0.5.0"
+    }
+
+
+### `/health` [0.4.0+]
+
+Principled response:
+
+    HTTP/1.1 200 OK
+    $HEADER_FIELDS
+     {
+         "healthy": true
+     }
+
+Example response:
+
+    HTTP/1.1 200 OK
+    Content-Length: 17
+    Content-Type: application/json
+    Date: Tue, 11 Oct 2016 17:17:21 GMT
+    Etag: "b40026a9bea9f5096f4ef55d3d23d6730139ff5e"
+    Server: TornadoServer/4.3
+
+    {
+        "healthy": true
+    }
 
 ### `/endpoint0` [0.3.0+]
 
@@ -42,42 +118,22 @@ Example response:
         "version": "0.4.0"
     }
 
-### `/health` [0.4.0+]
-
-Principled response:
-
-    HTTP/1.1 200 OK
-    $HEADER_FIELDS
-     {
-         "healthy": true
-     }
-
-Example response:
-
-    HTTP/1.1 200 OK
-    Content-Length: 17
-    Content-Type: application/json
-    Date: Tue, 11 Oct 2016 17:17:21 GMT
-    Etag: "b40026a9bea9f5096f4ef55d3d23d6730139ff5e"
-    Server: TornadoServer/4.3
-    
-    {
-        "healthy": true
-    }
-
 ## Running it
 
 For local execution, Python `2.7.9` is required. You can then run `simpleservice` like so:
 
     # with defaults:
     $ python simpleservice.py
-    
+
     # overwriting certain runtime settings:
     $ HEALTH_MAX=200 VERSION=1.0 python simpleservice.py
-    
+
 If you fancy it you can run the containerized version of `simpleservice` on your local machine (requires Docker installed):
 
-    $ docker run -P mhausenblas/simpleservice:0.4.0
+    $ docker run -P mhausenblas/simpleservice:0.5.0
+
+See also the [container images](https://hub.docker.com/r/mhausenblas/simpleservice/tags/).
+
 
 ## Changing runtime behaviour
 
