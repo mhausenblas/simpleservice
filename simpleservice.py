@@ -66,7 +66,7 @@ class Endpoint0(tornado.web.RequestHandler):
         }
       ))
       self.finish()
-    except Exception, e:
+    except Exception as e:
       logging.debug(e)
       self.set_status(404)
 
@@ -88,7 +88,7 @@ class Health(tornado.web.RequestHandler):
         delay_response = random.randrange(float(HEALTH_MIN), float(HEALTH_MAX))
         time.sleep(delay_response/1000.0)
       self.finish()
-    except Exception, e:
+    except Exception as e:
       logging.debug(e)
       self.set_status(404)
 
@@ -108,7 +108,7 @@ class Info(tornado.web.RequestHandler):
         }
       ))
       self.finish()
-    except Exception, e:
+    except Exception as e:
       logging.debug(e)
       self.set_status(404)
 
@@ -127,7 +127,7 @@ class Environment(tornado.web.RequestHandler):
         }
       ))
       self.finish()
-    except Exception, e:
+    except Exception as e:
       logging.debug(e)
       self.set_status(404)
 

@@ -120,7 +120,7 @@ Example response:
 
 ## Running it
 
-For local execution, Python `2.7.9` is required. You can then run `simpleservice` like so:
+For local execution, Python `3.9.2` is required. You can then run `simpleservice` like so:
 
     # with defaults:
     $ python simpleservice.py
